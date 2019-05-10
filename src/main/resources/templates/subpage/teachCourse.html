@@ -1,0 +1,114 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<style>
+		#info p {
+			font-size: 20px;
+		}
+	</style>
+</head>
+
+	<body>
+		<blockquote class="layui-elem-quote news_search">
+			<p>任课</p>
+		</blockquote>
+		<div class="container h-100">
+			<div style="margin-top: 10%;">
+				<div class="row">
+					<div class="w-100 d-flex justify-content-center">
+						<p style="font-size: 22px;">选择课程：</p>
+						<select class="form-control col-2" name="courseSelect" id="courseSelect" onchange="" style="display:inline; font-size:20px;" >
+							<div th:each="course:${courses}">
+								<option th:value="${course.getId()}" th:text="${course.getName()}"></option>
+							</div>
+						</select>
+						<div th:each="course:${courses}">
+							<input type="hidden" th:id="'courseInfo_' + ${course.getId()}" th:value="${course.getInfo()}">
+							<input type="hidden" th:id="'courseType_' + ${course.getId()}" th:value="${course.printType()}">
+						</div>
+					</div>
+				</div>
+
+
+
+				<div class="row">
+					<div class="w-100 d-flex justify-content-center">
+						<p style="font-size: 22px;">班级选择：</p>
+						<select class="form-control col-2" name="gradeSelect" id="gradeSelect" style="display:inline; font-size:20px;" >
+							<div th:each="grade:${grades}">
+								<option th:value="${grade.getId()}" th:text="${grade.getName()}"></option>
+							</div>
+						</select>
+						<div th:each="grade:${grades}">
+							<input type="hidden" th:id="'gradeInfo_' + ${grade.getId()}" th:value="${grade.getInfo()}">
+						</div>
+
+					</div>
+
+				</div>
+
+				<div class="row">
+					<div class="w-100 d-flex justify-content-center">
+						<p style="font-size: 22px;">开课时间：</p>
+						<input class="form-control col-2" id="date" type="date">
+
+					</div>
+
+				</div>
+
+				<div class="row">
+					<div class="w-100 d-flex justify-content-center">
+						<p style="font-size: 22px;">是否公开：</p>
+						<select class="form-control col-2" id="public" name="public" style="display:inline; font-size:20px;">
+							<option value="False">不公开</option>
+							<option value="True">公开</option>
+						</select>
+					</div>
+
+				</div>
+			</div>
+			<hr>
+			<div id="info" class="container-fluid col-3 text-center" style="display: block" width="50%">
+				<div class="row">
+					<p class=" p-2">课程代码：
+						<span id="courseId" th:text="${courses[0].getId()}"></span>
+					</p>
+				</div>
+				<div class="row">
+					<p class=" p-2">课程信息：
+						<span id="courseInfo" th:text="${courses[0].getInfo()}"></span>
+					</p>
+				</div>
+
+				<!--<div class="row">-->
+					<!--<p class=" p-2">课程类型：-->
+						<!--<span id="courseType" th:text="${courses[0].printType()}"></span>-->
+					<!--</p>-->
+				<!--</div>-->
+
+				<div class="row">
+					<p class=" p-2">班级代码：
+						<span id="gradeId" th:text="${grades[0].getId() }"></span>
+					</p>
+				</div>
+
+
+				<div class="row">
+					<p class=" p-2">班级信息：
+						<span id="gradeInfo" th:text="${grades[0].getInfo() }"></span>
+					</p>
+				</div>
+
+
+
+			</div>
+			<div class="d-flex justify-content-center">
+				<a class=" btn btn-primary btn-large" href="javascript:teachNewCourse()">&nbsp;&nbsp;&nbsp;任课&nbsp;&nbsp;&nbsp;</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="/js/teachCourse.js"></script>
+
+</html>

@@ -1,0 +1,97 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>作业提交系统V2.0</title>
+<link href="/css/login.css" rel="stylesheet" rev="stylesheet" type="text/css" media="all" />
+<!-- <link rel="stylesheet" href="css/bootstrap.css"> -->
+<script type="text/javascript" src="/js/jquery-3-3-1-min.js"></script>
+<script type="text/javascript" src="/js/adm_login.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	var $tab_li = $('#tab ul li');
+	$tab_li.hover(function(){
+		$(this).addClass('selected').siblings().removeClass('selected');
+		var index = $tab_li.index(this);
+		$('div.tab_box > div').eq(index).show().siblings().hide();
+	});
+
+    $("#adm_password_hide").keydown(function(e){
+        if(e.keyCode==13){
+            login_student();
+        };
+    });
+});
+
+</script>
+
+
+</head>
+
+<body class="h-100">
+
+          <div class="login_box">
+              <div class="login_l_img"><img src="images/login-img.png" /></div>
+          <div id="tab">
+            <ul class="tab_menu">
+              <li class="selected">教师登录</li>
+              <li>管理员</li>
+            </ul>
+            <div > 
+             <!-- å­¦çç»å½ç»æ-->
+             <!-- å¯¼å¸ç»å½å¼å§-->
+              <div class="tab_box"> 
+              <div>
+                <div class="stu_error_box"></div>
+                <div  class="stu_login_error">
+                  <div id="username">
+                    <label>教工号：</label>
+                    <input type="text" id="tea_username_hide" placeholder="输入学号" nullmsg="学号不能为空！" datatype="s6-18" errormsg="学号范围在6~20个字符之间！" sucmsg="学号验证通过！"/>
+                    <!--ajaxurl="demo/valid.jsp"--> 
+                  </div>
+                  <div id="password">
+                    <label>密&nbsp;&nbsp;&nbsp;码：</label>
+                    <input type="password" id="tea_password_hide" placeholder="输入密码" nullmsg="密码不能为空！" datatype="*6-16" errormsg="密码范围在6~20位之间！" sucmsg="密码验证通过！"/>
+                  </div>
+                  <div id="remember">
+                    <input type="checkbox" name="remember">
+                    <label>记住密码</label>
+                  </div>
+                  <div id="login">
+                    <button id="tea_login" onclick="login_teacher()">登录</button>
+                  </div>
+
+                </div>
+              </div>
+               <!-- å¯¼å¸ç»å½ç»æ-->
+               <div class="hide">
+               <div class="adm_error_box"></div>
+                <div class="adm_login_error">
+                  <div id="username">
+                    <label>教工号：</label>
+                    <input type="text" id="adm_username_hide" errormsg="教工号范围在6~18个字符之间！" sucmsg="教工号验证通过！"/>
+                    <!--ajaxurl="demo/valid.jsp"--> 
+                  </div>
+                  
+                  <div id="password">
+                    <label>密&nbsp;&nbsp;&nbsp;码：</label>
+                    <input type="password" id="adm_password_hide" placeholder="输入密码" nullmsg="密码不能为空" datatype="*6-16" errormsg="å¯ç èå´å¨6~16ä½ä¹é´ï¼" sucmsg="å¯ç éªè¯éè¿ï¼"/>
+                  </div>
+                  <div id="remember">
+                    <input type="checkbox" name="remember">
+                    <label>记住密码</label>
+                  </div>
+                  <div id="login">
+                    <button id="adm_login" onclick="login_administrator()">登录</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+              </div>
+          <div class="bottom">©2018 Homework Submit System</div>
+
+
+          </div>
+</body>
+</html>

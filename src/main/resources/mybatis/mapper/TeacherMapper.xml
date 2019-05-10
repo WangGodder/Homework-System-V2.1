@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.godder.homework.mapper.TeacherMapper">
+  <resultMap id="BaseResultMap" type="top.godder.homework.domain.Teacher">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="portrait" jdbcType="VARCHAR" property="portrait" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, name, password, portrait, info
+  </sql>
+  <select id="selectTeacher" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, name, portrait, info from teacher
+    <where>
+      <if test="id != null and id != ''">
+        id = #{id,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteTeacher" parameterType="java.lang.String">
+    delete from teacher where id = #{id}
+  </delete>
+  <select id="countTeacher" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    select count(*) from teacher
+  </select>
+  <update id="updateTeacher" parameterType="top.godder.homework.domain.Teacher">
+    update teacher
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="portrait != null">
+        portrait = #{portrait,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null">
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <insert id="insertTeacher" parameterType="top.godder.homework.domain.Teacher">
+   insert into teacher (id, name, password, info) VALUES (#{id} ,#{name} , #{password} ,#{info} )
+  </insert>
+  <select id="loginTeacher" resultMap="BaseResultMap">
+    select * from teacher where id = #{id} and password = #{password}
+  </select>
+  <update id="updatePassword">
+    update teacher set password = #{newPassword} where id = #{teacher.id} and password = #{teacher.password}
+  </update>
+</mapper>

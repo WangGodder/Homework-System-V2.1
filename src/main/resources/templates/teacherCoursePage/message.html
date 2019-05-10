@@ -1,0 +1,46 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="/js/message.js"></script>
+</head>
+<body>
+	<div class="layui-form users_list">
+	  	<table class="layui-table">
+		    <colgroup>
+				<col width="10%">
+				<col width="20%">
+				<col width="10%">
+				<col width="10%">
+				<col width="10%">
+				<col width="10%">
+		    </colgroup>
+		    <thead>
+				<tr>
+					<th>消息名称</th>
+					<th>消息内容</th>
+					<th>发布日期</th>
+					<th>编辑消息</th>
+					<th>删除消息</th>
+				</tr> 
+				<tr th:each="message:${messages}">
+					<td><input th:id="'name_' + ${message.getId() }" type="text" th:value="${message.getName() }"></td>
+					<td><input th:id="'info_' + ${message.getId() }" type="text" th:value="${message.getInfo() }"></td>
+					<td th:text="${message.getDate().toLocaleString() }"></td>
+					<td><button th:id="'editor_' + ${message.getId()}" class="btn btn-info" onclick="editorMessage(this)">编辑消息</button></td>
+					<td><button class="btn btn-danger" th:id="'delete_' + ${message.getId()}" onclick="deleteMessage(this)">删除消息</button></td>
+				</tr>
+				<tr>
+					<td><input id="name_new" type="text" ></td>
+					<td><input id="info_new" type="text" ></td>
+					<td></td>
+					<td></td>
+					<td><button id="addHomework" onclick="addMessage()">添加消息</button></td>
+
+				</tr>
+		    </thead>
+		    <tbody class="users_content"></tbody>
+		</table>
+	</div>
+</body>
+</html>

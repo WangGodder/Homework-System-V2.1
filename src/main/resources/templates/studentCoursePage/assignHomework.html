@@ -1,0 +1,57 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/>
+	<script type="text/javascript">
+		function assignHomework() {
+			 var formData = new FormData($( "#assignHomeworkForm" )[0]);
+			 var homeworkId = $("#homeworkId").val()
+		     $.ajax({  
+		          url: 'assignHomework/' + homeworkId ,
+		          type: 'POST',  
+		          data: formData,  
+		          cache: false,  
+		          contentType: false,  
+		          processData: false,  
+		          success: function (data) {
+		              if(data.status == 1) {
+		            	  alert(data.message);
+		            	  return;
+		              } 
+		              else {
+		            	  alert("上传成功");
+		            	  homework();
+		            	  return;
+		              }
+		              alert("格式错误,要求格式：" + data.message);
+		          },  
+		          error: function (returndata) {  
+		              alert(returndata);  
+		          }  
+		     });  
+		}
+	</script>
+</head>
+<body>
+	<h2>文件上传</h2>
+	<h3 th:text="${homework.getName()}"></h3>
+	<h3 th:text="'要求格式:' + ${homework.getFormat()}"></h3>
+    <input id="homeworkId" type="hidden" th:value="${homework.getId()}">
+    <form id="assignHomeworkForm">
+        <table>
+            <tr>
+                <td>请选择文件:</td>
+                <td><input type="file" name="file"></td>
+               	<input id="submitTeachCourseId" type="hidden" name="teachCourseId">
+            </tr>
+            <tr>
+                <td><input id="submit" type="button" value="上传" onclick="assignHomework()"/></td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+<script type="text/javascript">
+$("#submitTeachCourseId").val($("#teachCourseId").val());
+</script>
+</html>

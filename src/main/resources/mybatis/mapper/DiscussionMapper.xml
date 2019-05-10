@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.godder.homework.mapper.DiscussionMapper">
+  <resultMap id="BaseResultMap" type="top.godder.homework.domain.Discussion">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="publisherid" jdbcType="VARCHAR" property="publisherid" />
+    <result column="datetime" jdbcType="TIMESTAMP" property="datetime" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="teachcourseid" jdbcType="INTEGER" property="teachcourseid" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+
+    id, publisherid, datetime, content, teachcourseid
+  </sql>
+  <select id="selectDiscussion" parameterType="map" resultMap="BaseResultMap">
+    select * from discussion
+    <where>
+      <if test="id != null">
+        id = #{id}
+      </if>
+      <if test="teachCourseId != null">
+        and teachcourseid = #{teachCourseId,jdbcType=INTEGER}
+      </if>
+      <if test="publisherId != null">
+        and publisherid = #{publisherId,jdbcType=INTEGER}
+      </if>
+    </where>
+    order by datetime
+  </select>
+  <delete id="deleteDiscussion" parameterType="java.lang.Integer">
+    delete from discussion where id = #{id}
+  </delete>
+  <select id="countDiscussion" parameterType="map" resultType="java.lang.Long">
+    select count(*) from discussion
+    <where>
+      <if test="publisherId != null">
+        publisherid = #{publisherId,jdbcType=INTEGER}
+      </if>
+      <if test="teachCourseId != null">
+        and teachcourseid = #{teachCourseId,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  <update id="updateDiscussion" parameterType="map">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    update discussion
+    <set>
+      <if test="content != null">
+        publisherid = #{content}
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="insertDiscussion" parameterType="top.godder.homework.domain.Discussion">
+    insert into discussion (publisherid,  content, teachcourseid)
+    values (#{publisherid,jdbcType=VARCHAR}  , #{content,jdbcType=VARCHAR}  , #{teachcourseid,jdbcType=INTEGER} )
+  </update>
+</mapper>

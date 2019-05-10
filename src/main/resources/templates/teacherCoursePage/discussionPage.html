@@ -1,0 +1,40 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript">
+	function submitDiscussion() {
+		var teachCourseId = $("#teachCourseId").val();
+		var discussion = $("#discussion").val();
+		$.ajax({
+			url: "submitDiscussion",
+			data: {"teachCourseId": teachCourseId, "discussion": discussion},
+			type: "POST",
+			success: function(data) {
+				if (data.status == 1) {
+					alert("讨论中不可出现敏感词汇");
+					$("#discussion").val("");
+				}
+				else {
+					alert("发布成功");
+					goDiscussion();
+				}
+			},
+			error : function() {
+				alert("错误发生");
+			}
+		})
+	}
+</script>
+</head>
+<body>	
+		<div class="discussionBox" style="margin: 20px;" th:each="info:${discussions}">
+			<p style="margin-bottom: 0px;"><strong style="font-size: 20px;" th:text="${info[0] }"></strong>&nbsp;<small th:text="${info[1] }"></small></p>
+			<p style="margin-top: 0px" th:text="${info[2] }"></p>
+		</div>
+	<!--<h3>留言：</h3>-->
+	<!--<textarea name="discussion" id="discussion" cols="30" rows="4"></textarea>-->
+	<!--<br>-->
+	<!--<a style="margin-left: 90px" class="btn btn-primary btn-large" href="javascript:submitDiscussion()">提交</a>-->
+</body>
+</html>

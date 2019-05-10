@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.godder.homework.mapper.AttendCourseMapper">
+  <resultMap id="BaseResultMap" type="top.godder.homework.domain.AttendCourse">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="studentid" jdbcType="VARCHAR" property="studentId" />
+    <result column="teachcourseid" jdbcType="INTEGER" property="teachCourseId" />
+    <result column="homeworkscore" jdbcType="INTEGER" property="homeworkScore" />
+    <result column="usualscore" jdbcType="INTEGER" property="usualScore" />
+    <result column="finalscore" jdbcType="INTEGER" property="finalScore" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    studentid, teachcourseid, homeworkscore, usualscore, finalscore
+  </sql>
+  <select id="selectAttendCourse" parameterType="map" resultMap="BaseResultMap">
+    select * from attendcourse
+    <where>
+      <if test="studentId != null and studentId != ''">
+        studentid  = #{studentId,jdbcType=VARCHAR}
+      </if>
+      <if test="teachCourseId != null">
+        and teachcourseid = #{teachCourseId,jdbcType=INTEGER}
+      </if>
+      <if test="finalScoreLowerLimit != null">
+        and finalscore &gt;= #{finalScoreLowerLimit,jdbcType=INTEGER}
+      </if>
+      <if test="finalScoreUpperLimit != null">
+        and finalscore &lt;= #{finalScoreUpperLimit,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteAttendCourse" parameterType="map">
+    delete from attendcourse
+    <where>
+      <if test="studentId != null and studentId != ''">
+        studentid  = #{studentId,jdbcType=VARCHAR}
+      </if>
+      <if test="teachCourseId != null">
+        and teachcourseid = #{teachCourseId,jdbcType=INTEGER}
+      </if>
+    </where>
+  </delete>
+  <delete id="deleteCourse" parameterType="java.lang.Integer">
+    delete
+    from attendcourse
+    where (select teachcourseid
+           from attendcourse left join teachcourse on teachcourseid = id
+           where courseid = #{courseId})
+            = teachcourseid ;
+  </delete>
+  <select id="countAttendCourse" parameterType="map" resultType="java.lang.Long">
+    select count(*) from attendcourse
+    <where>
+      <if test="studentId != null and studentId != ''">
+        studentid  = #{studentId,jdbcType=VARCHAR}
+      </if>
+      <if test="teachCourseId != null">
+        and teachcourseid = #{teachCourseId,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  <update id="updateAttendCourse" parameterType="map">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    update attendcourse
+    <set>
+      <if test="usualScoreProp = null">
+        finalscore = 0,
+      </if>
+      <if test="homeworkScore != null">
+        homeworkscore = #{homeworkScore,jdbcType=INTEGER},
+      </if>
+      <if test="usualScore != null">
+        usualscore = #{usualScore,jdbcType=INTEGER} ,
+      </if>
+      <if test="usualScore != null">
+        <if test="usualScore != null and homeworkScore != null">
+        finalscore = usualscore * #{usualScoreProp} + homeworkscore * (1 - #{usualScoreProp} ),
+      </if>
+        <if test="usualScore != null and homeworkScore = null">
+          finalscore = usualscore * #{usualScoreProp},
+        </if>
+        <if test="homeworkScore != null and usualScore = null">
+          finalscore = homeworkscore * (1 - #{usualScoreProp} ),
+        </if>
+      </if>
+
+    </set>
+    <where>
+      <if test="studentId != null and studentId != ''">
+        studentid  = #{studentId,jdbcType=VARCHAR}
+      </if>
+      <if test="teachCourseId != null">
+        and teachcourseid = #{teachCourseId,jdbcType=INTEGER}
+      </if>
+    </where>
+  </update>
+  <insert id="insertAttendCourse" parameterType="map">
+    insert into attendcourse (studentid, teachcourseid)
+    values (#{studentId,jdbcType=VARCHAR}, #{teachCourseId,jdbcType=INTEGER})
+  </insert>
+  <select id="getHomeworkScore" parameterType="map" resultType="int">
+    select sum(score * 0.01 * proportion)
+    from assignhomework join homework on homeworkid = homework.id and assignhomework.teachcourseid = homework.teachcourseid
+    where studentid=#{studentId,jdbcType=VARCHAR} and homework.teachcourseid=#{teachCourseId,jdbcType=INTEGER}
+  </select>
+</mapper>

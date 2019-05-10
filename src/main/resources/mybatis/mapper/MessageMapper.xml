@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.godder.homework.mapper.MessageMapper">
+  <resultMap id="BaseResultMap" type="top.godder.homework.domain.Message">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="teachcourseid" jdbcType="INTEGER" property="teachcourseid" />
+    <result column="date" jdbcType="TIMESTAMP" property="date" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, teachcourseid, date, name, info
+  </sql>
+  <select id="selectMessage" parameterType="map" resultMap="BaseResultMap">
+    select * from message
+    <where>
+      <if test="id != null">
+        id = #{id}
+      </if>
+      <if test="teachCourseId != null">
+        and teachcourseid = #{teachCourseId,jdbcType=INTEGER}
+      </if>
+      <if test="date != null">
+        and date = #{date}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteMessage" parameterType="java.lang.Integer">
+    delete from message where id = #{id}
+  </delete>
+  <select id="countMessage" parameterType="map" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    select count(*) from message
+    <where>
+      <if test="teachCourseId != null">
+        and teachcourseid = #{teachCourseId,jdbcType=INTEGER}
+      </if>
+      <if test="date != null">
+        and date = #{date}
+      </if>
+    </where>
+  </select>
+  <update id="updateMessage" parameterType="top.godder.homework.domain.Message">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    update message
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.info != null">
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="insertMessage" parameterType="top.godder.homework.domain.Message">
+    insert into message (teachcourseid, name, info) VALUES (#{teachcourseid} ,#{name} ,#{info} )
+  </update>
+</mapper>

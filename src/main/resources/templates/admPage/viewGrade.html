@@ -1,0 +1,83 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/css/bootstrap.css">
+<script type="text/javascript">
+function editorGrade(bt) {
+	var id = bt.id;
+	var info = $("#info_" + id).val();
+	var name = $("#name_" + id).val();
+	var year = $("#year_" + id).val();
+	$.ajax({
+		url: "editorGrade",
+		type: "post",
+		data: {"gradeId": id, "info": info, "name": name},
+		success: function() {
+			alert(id + "信息修改成功");
+			viewGrade();
+		},
+		error: function() {
+			alert("错误发生，请以管理员身份操作");
+		}
+	})
+}
+function addGrade() {
+	var name = $("#newName").val();
+	var info = $("#newInfo").val();
+	$.ajax({
+		url: "addGrade",
+		data: {"name": name, "info": info},
+		type: "POST",
+		success: function() {
+			alert("创建成功");
+			viewGrade();
+		},
+		error: function() {
+			alert("错误,操作身份不是管理员");
+		}
+	})
+}
+</script>
+</head>
+<body>
+	<blockquote class="layui-elem-quote news_search">
+		<h3>班级名单</h3>
+	</blockquote>
+	<table class="table">
+		<colgroup>
+				<col width="10%">
+				<col width="10%">
+				<col width="30%">
+				<col width="10%">
+				<col width="10%">
+	    </colgroup>
+		<thead class="thead-light">
+		  <tr>
+			<th>班级ID</th>
+			<th>班级姓名</th>
+			<th>班级介绍</th>
+			<th>班级人数</th>
+			<th>修改班级</th>
+		  </tr>
+		</thead>
+		<tbody>
+			<tr th:each="grade,status:${grades}">
+				<td th:text="${grade.getId()}"></td>
+				<td><input style="width: 100%;" th:value="${grade.getName() }" th:id="'name_' + ${grade.getId() }" type="text"></td>
+				<td><input style="width: 60%;" type="text" th:id="'info_' + ${grade.getId() }" th:value="${grade.getInfo() }"></td>
+				<td th:text="${nums[status.index]}"></td>
+				<td><button th:id="${grade.getId() }" class="btn btn-success"  onclick="editorGrade(this)">保存修改</button></td>
+			</tr>
+			<tr>
+				<td> </td>
+				<td><input style="width: 100%;" id="newName" type="text"></td>
+				<td><input style="width: 60%;" id="newInfo" type="text"></td>
+				<td> </td>
+				<td><button class="btn btn-primary"  id="addTeacher" onclick="addGrade()">创建班级</button>
+			</tr>
+		</tbody>
+	</table>
+</body>
+	
+</html>

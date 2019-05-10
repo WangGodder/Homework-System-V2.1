@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.godder.homework.mapper.NoticeMapper">
+  <resultMap id="BaseResultMap" type="top.godder.homework.domain.Notice">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="date" jdbcType="DATE" property="date" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, date, info, name
+  </sql>
+  <select id="selectNotice" parameterType="map" resultMap="BaseResultMap">
+    select * from notice
+    <where>
+      <if test="id != null">
+        id = #{id}
+      </if>
+      <if test="date != null">
+        and date = #{date,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteNotice" parameterType="java.lang.Integer">
+    delete from notice where id = #{id}
+  </delete>
+  <select id="countNotice" resultType="java.lang.Long">
+    select count(*) from notice
+  </select>
+  <update id="updateNotice" parameterType="map">
+    update notice
+    <set>
+      <if test="info != null">
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <insert id="insertNotice" parameterType="top.godder.homework.domain.Notice">
+    insert into notice (info, name) values (#{info} ,#{name} )
+  </insert>
+</mapper>

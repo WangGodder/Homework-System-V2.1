@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.godder.homework.mapper.LogMapper">
+  <resultMap id="BaseResultMap" type="top.godder.homework.domain.Log">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="operatorid" jdbcType="VARCHAR" property="operatorid" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    ip, content, time, operatorid, type
+  </sql>
+  <select id="selectLog" parameterType="map" resultMap="BaseResultMap">
+    select * from log
+    <where>
+      <if test="ip != null and ip != ''">
+        ip = #{ip}
+      </if>
+      <if test="type != null">
+          and type = #{type}
+      </if>
+        <if test="operatorId != null and operatorId != ''">
+            and operatorid = #{operatorId}
+        </if>
+    </where>
+  </select>
+  <select id="countLog" parameterType="map" resultType="java.lang.Long">
+    select count(*) from log
+    <where>
+        <if test="ip != null and ip != ''">
+            ip = #{ip}
+        </if>
+        <if test="operatorId != null and operatorId != ''">
+            and operatorid = #{operatorId}
+        </if>
+        <if test="type != null">
+            and type = #{type}
+        </if>
+    </where>
+  </select>
+
+  <insert id="insertLog" parameterType="map">
+    insert into log (ip, content, operatorid, type)
+    values (#{ip} ,#{content} ,#{operatorid} ,#{type} )
+  </insert>
+</mapper>

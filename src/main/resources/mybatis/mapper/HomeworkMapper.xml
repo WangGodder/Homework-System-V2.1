@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.godder.homework.mapper.HomeworkMapper">
+  <resultMap id="BaseResultMap" type="top.godder.homework.domain.Homework">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="teachcourseid" jdbcType="INTEGER" property="teachcourseid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="deadline" jdbcType="DATE" property="deadline" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+    <result column="proportion" jdbcType="INTEGER" property="proportion" />
+    <result column="format" jdbcType="VARCHAR" property="format" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, teachcourseid, name, deadline, info, proportion, format
+  </sql>
+  <select id="selectHomework" parameterType="map" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    select * from homework
+    <where>
+      <if test="id != null">
+        id = #{id}
+      </if>
+      <if test="teachCourseId != null">
+        and teachcourseid = #{teachCourseId,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteHomework" parameterType="java.lang.Integer">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    delete from homework where id = #{id}
+  </delete>
+  <delete id="deleteCourse" parameterType="java.lang.Integer">
+    delete from homework where (select teachcourseid from teachcourse where courseid = #{courseId} ) = teachcourseid
+  </delete>
+  <select id="countHomework" parameterType="map" resultType="java.lang.Long">
+    select count(*) from homework
+    <where>
+      <if test="teachCourseId != null">
+        teachcourseid = #{teachCourseId,jdbcType=INTEGER}
+      </if>
+      <if test="id != null">
+        and id = #{id}
+      </if>
+    </where>
+  </select>
+  <update id="updateHomework" parameterType="map">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    update homework
+    <set>
+      <if test="teachcourseid != null">
+        teachcourseid = #{teachcourseid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="deadline != null">
+        deadline = #{deadline,jdbcType=DATE},
+      </if>
+      <if test="info != null">
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="proportion != null">
+        proportion = #{proportion,jdbcType=INTEGER},
+      </if>
+      <if test="format != null">
+        format = #{format,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <insert id="insertHomework" parameterType="map">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    insert into homework (teachcourseid, name, deadline, info, format)
+    values (#{teachcourseid} , #{name} , #{deadline} , #{info} , #{format} )
+  </insert>
+</mapper>

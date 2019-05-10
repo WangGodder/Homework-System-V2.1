@@ -1,0 +1,91 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" href="/css/studentCourse.css" media="all" />
+	<script type="text/javascript">
+	function download(bt) {
+		var fileName = bt.id;
+		var teachCourseId = $("#teachCourseId").val();
+		var data = {"fileName": fileName};
+		var url = "resource_download/" + teachCourseId + "?fileName=" + fileName;
+		alert(url);
+		window.open(url);
+	}
+	
+	function submitResource() {
+		 var formData = new FormData($( "#submitResourceForm" )[0]);  
+		 var teachCourseId = $("#teachCourseId").val();
+	     $.ajax({  
+	          url: 'uploadResource/' + teachCourseId ,  
+	          type: 'POST',  
+	          data: formData,  
+	          cache: false,  
+	          contentType: false,  
+	          processData: false,  
+	          success: function (data) {
+	              if(data.status == 1) {
+	            	  alert("上传文件为空");
+	              } 
+	              else {
+	            	  alert("上传成功");
+	            	  goResource();
+	              }
+	          },  
+	          error: function (returndata) {  
+	              alert(returndata);  
+	          }  
+	     });  
+	}
+	</script>
+</head>
+<body class="childrenBody">
+	<blockquote class="layui-elem-quote news_search">
+		<h2>课程资源</h2>
+		<form id="submitResourceForm">
+        <table>
+            <tr>
+                <td>请选择文件:</td>
+                <td><input type="file" name="file"></td>
+            </tr>
+            <tr>
+                <td><input id="submitbt" type="button" value="上传" onclick="submitResource()" class="btn-primary"/></td>
+            </tr>
+        </table>
+    </form>
+	</blockquote>
+	<div class="layui-form users_list">
+	  	<table class="layui-table">
+		    <colgroup>
+				<col width="25%">
+				<col width="30%">
+				<col width="30%">
+				<col width="10%">
+
+		    </colgroup>
+		    <thead>
+				<tr>
+					<th>资源名称</th>
+					<th>上传日期</th>
+					<th>文件大小</th>
+					<th>操作</th>
+				</tr> 
+				<tr th:each="file:${resourceNames}">
+					<td th:text="${file[0] }"></td>
+					<td th:text="${file[1] }"></td>
+					<td th:text="${file[2] }"></td>
+					<td><a th:href="'resource_download/' + ${teachCourseId } + '?fileName=' + ${file[0]}" class="btn btn-info">下载资源</a></td>
+				</tr>
+		    </thead>
+		    <tbody class="users_content"></tbody>
+		</table>
+	</div>
+	<div id="page"></div>
+</body>
+</html>

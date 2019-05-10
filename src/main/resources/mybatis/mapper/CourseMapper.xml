@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.godder.homework.mapper.CourseMapper">
+  <resultMap id="BaseResultMap" type="top.godder.homework.domain.Course">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+    <result column="type" jdbcType="CHAR" property="type" />
+  </resultMap>
+
+  <select id="selectCourse" parameterType="map" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    select * from course
+    <where>
+      <if test="id != null">
+        id = #{id}
+      </if>
+      <if test="name != null and name != ''">
+        and name = #{name}
+      </if>
+      <if test="type != null">
+        and type = #{type}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteCourse" parameterType="java.lang.Integer">
+    delete from course where id = #{id}
+  </delete>
+  <select id="countCourse" parameterType="map" resultType="java.lang.Long">
+    select count(*) from course
+    <where>
+      <if test="name != null">
+        name = #{name}
+      </if>
+      <if test="type != null">
+        and type = #{type}
+      </if>
+    </where>
+  </select>
+  <update id="updateCourse" parameterType="map">
+    update course
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null">
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="insertCourse" parameterType="top.godder.homework.domain.Course">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    insert into course (name, info, type)
+    values (#{name} , #{info} , #{type} )
+  </update>
+</mapper>

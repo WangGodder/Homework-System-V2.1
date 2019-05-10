@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.godder.homework.mapper.SensitiveWordsMapper">
+  <resultMap id="BaseResultMap" type="top.godder.homework.domain.SensitiveWords">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="word" jdbcType="VARCHAR" property="word" />
+  </resultMap>
+  <select id="selectAllWord"  resultType="java.lang.String">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    select * from sensitivewords
+
+  </select>
+  <delete id="deleteWord" parameterType="java.lang.String">
+    delete from sensitivewords where word = #{word,jdbcType=VARCHAR}
+  </delete>
+  <select id="countWord" resultType="java.lang.Long">
+
+    select count(*) from sensitivewords
+  </select>
+
+  <insert id="insertWord" parameterType="java.lang.String">
+   insert into sensitivewords (word) values (#{word,jdbcType=VARCHAR})
+  </insert>
+</mapper>

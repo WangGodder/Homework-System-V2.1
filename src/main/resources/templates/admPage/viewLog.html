@@ -1,0 +1,41 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/css/bootstrap.css">
+</head>
+<body>
+	<blockquote class="layui-elem-quote news_search">
+		<h3>操作日志</h3>
+	</blockquote>
+	<table class="table">
+		<colgroup>
+				<col width="10%">
+				<col width="20%">
+				<col width="10%">
+				<col width="10%">
+				<col width="10%">
+	    </colgroup>
+		<thead class="thead-light">
+		  <tr>
+			<th>操作类型</th>
+			<th>操作内容</th>
+			<th>操作时间</th>
+			<th>操作ID</th>
+			<th>来源IP</th>
+		  </tr>
+		</thead>
+		<tbody>
+					<tr th:each="log:${logs}">
+						<td th:text="${log.printType()}"></td>
+						<td th:text="${log.getContent() }"></td>
+						<td th:text="${log.getTime() }"></td>
+						<td th:text="${log.getOperatorid() }"></td>
+						<td th:text="${log.getIp() }"></td>
+					</tr>
+		</tbody>
+	</table>
+
+	
+</html>

@@ -1,0 +1,198 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <script type="text/javascript" src="/js/coursePage.js"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            background-color: #F0F0F0;
+        }
+
+        #navbar,
+        #footer {
+            background-color: #0483D4;
+
+            text-align: center;
+            color: #8099af;
+            font: normal 12px/20px microsoft YaHei;
+            margin: 15px;
+            padding: 10px;
+
+        }
+
+        #main {
+            margin-top: 20px;
+
+        }
+
+        .courseName {
+            font: normal 24px/45px "microsoft YaHei";
+            color: #fff !important;
+            padding: 5px;
+        }
+
+        .tt {
+            color: #333333;
+            font: bold 15px/42px "microsoft YaHei";
+            margin-left: 20px;
+            /* float: left; */
+        }
+        #left img{
+            display: block; margin: 0 auto;
+        }
+        #left a{
+            color: black;
+            
+        }
+        #left a:hover{
+            text-decoration: none;
+        }
+    </style>
+    <title th:text="'作业提交系统V2.0   ' + ${course.getName() }"></title>
+</head>
+
+<body>
+        <input id="teachCourseId" type="hidden" th:value="${teachCourse.getId()}"/>
+
+    <header>
+        <nav id="navbar" class="navbar navbar-dark d-flex justify-content-center" style="height: 60px;">
+            <a class="navbar-brand logo_2" href="#">
+                <img src="/images/logo.png" style="margin-top:-3px">
+                <span class="courseName" th:text="${course.getName()}"> </span>
+            </a>
+        </nav>
+    </header>
+
+
+
+
+    <section class="h-75">
+        <div id="main" class="container-fluid col-10 h-75">
+            <div class="row h-100">
+
+                <div id="left" class="col-md-3 col-sm-4 h-100">
+                    <div class="bg-white w-100 h-100">
+                        <span class="tt">索引</span>
+                        <hr style="margin-top: 0;">
+
+                        <div class="row">
+                            <div class="col-6" style="padding-right: 0">
+                                <a th:href="${teachCourse.getId()}" style="text-align: center;">
+                                    <img src="/images/ico_but_index.png" width="48px" height="48px" alt="">
+                                    <h5>首頁</h5>
+                                </a>
+                            </div>
+                            <div class="col-6"  style="padding-left: 0">
+                                <a href="javascript:homework()" style="text-align: center">
+                                    <img src="/images/ico_but_homework.png" alt="">
+                                    <h5>提交作业</h5>
+                                </a>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-6" style="padding-right: 0">
+                                <a href="javascript:goResource()" style="text-align: center;">
+                                    <img src="/images/ico_but_res.png" width="48px" height="48px" alt="">
+                                    <h5>课程资源</h5>
+                                </a>
+                            </div>
+                            <div class="col-6" style="padding-left: 0">
+                                <a href="javascript:goDiscussion()" style="text-align: center;">
+                                    <img src="/images/ico_but_talk.png" alt="">
+                                    <h5>讨论区</h5>
+                                </a>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                                <div class="col-6" style="padding-right: 0">
+                                    <a href="javascript:window.close()" style="text-align: center">
+                                        <img src="/images/ico_but_go.png" width="48px" height="48px" alt="">
+                                        <h5>退出</h5>
+                                    </a>
+                                </div>
+                                <div class="col-6">
+                                    <!-- <a href="#">
+                                        <img src="img/ico_but_talk.png" alt="">
+                                        <h5>讨论区</h5>
+                                    </a> -->
+                                </div>
+                            </div>
+
+                    </div>
+                </div>
+
+
+                <div id="right" class="col-md-9 col-sm-8 h-100">
+                    <div class="bg-white h-100 w-100">
+
+                        <span class="tt">内容</span>
+                        <hr style="margin-top: 0;">
+                        <div id="subpage" class="templatemo-content" style="margin-left: 10px;margin-right: 10px;">
+                                <div>
+                                  <h3 th:text="'课程名称：'+ ${course.getName()}"></h3>
+                                  <h3 th:text="'开课时间：'+ ${teachCourse.printSemestor()}"></h3>
+                                  <div class="form-group">
+                                    <h3> 课程介绍</h3>
+                                    <textarea class="form-control" readonly="readonly" th:text="${course.getInfo()}"></textarea>
+                                  </div>
+                    
+                                </div>
+                                <div>
+                                  <table class="layui-table">
+                                    <colgroup>
+                                      <col width="15%">
+                                      <col width="40%">
+                                      <col width="10%">
+                                    </colgroup>
+                                    <thead>
+                                      <tr>
+                                        <th>消息</th>
+                                        <th>内容</th>
+                                        <th>发布日期</th>
+                    
+                                      </tr>
+
+                                        <tr th:each="message:${messages}">
+                                          <td th:text="${message.getName() }"></td>
+                                          <td th:text="${message.getInfo() }"></td>
+                                          <td th:text="${message.getDate() }"></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="users_content"></tbody>
+                                  </table>
+                                </div>
+                              </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <footer>
+        <div id="footer" class="container-fluid text-center">
+            <p class="text-white" style="margin: 0;"> Copyright &copy; 2019 作业提交系统 </p>
+        </div>
+    </footer>
+
+    <script src="../js/jquery-3-3-1-min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/Chart.min.js"></script>
+    <script src="../js/templatemo_script.js"></script>
+    <!-- <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/popper.min.js"></script> -->
+</body>
+
+</html>

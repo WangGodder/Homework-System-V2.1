@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.godder.homework.mapper.TeachCourseMapper">
+  <resultMap id="BaseResultMap" type="top.godder.homework.domain.TeachCourse">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="courseid" jdbcType="INTEGER" property="courseId" />
+    <result column="teacherid" jdbcType="VARCHAR" property="teacherId" />
+    <result column="gradeid" jdbcType="INTEGER" property="gradeId" />
+    <result column="semestor" jdbcType="DATE" property="semestor" />
+    <result column="ispublic" jdbcType="BIT" property="isPublic" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, courseid, teacherid, gradeid, semestor, ispublic
+  </sql>
+  <select id="selectTeachCourse" parameterType="map" resultMap="BaseResultMap">
+    select * from teachcourse
+   <where>
+     <if test="id != null">
+       id = #{id}
+     </if>
+     <if test="gradeId != null">
+       and gradeid = #{gradeId}
+     </if>
+     <if test="courseId != null">
+       and courseid = #{courseId}
+     </if>
+     <if test="semestor != null">
+       and semestor = #{semestor}
+     </if>
+     <if test="teacherId != null and teacherId != ''">
+       and teacherid = #{teacherId}
+     </if>
+   </where>
+    order by semestor
+  </select>
+  <delete id="deleteTeachCourse" parameterType="map">
+    delete from teachcourse
+    <where>
+      <if test="id != null">
+        id = #{id}
+      </if>
+      <if test="courseId != null">
+        and courseid = #{courseId}
+      </if>
+    </where>
+  </delete>
+  <select id="countTeachCourse" parameterType="map" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    select count(*) from teachcourse
+    <where>
+      <if test="gradeId != null">
+        and gradeid = #{gradeId}
+      </if>
+      <if test="courseId != null">
+        and courseid = #{courseId}
+      </if>
+      <if test="semestor != null">
+        and semestor = #{semestor}
+      </if>
+      <if test="teacherId != null and teacherId != ''">
+        and teacherid = #{teacherId}
+      </if>
+      <if test="isPublic != null">
+        and ispublic = #{isPublic}
+      </if>
+    </where>
+  </select>
+  <update id="updateTeachCourse" parameterType="map">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    update teachcourse
+    <set>
+      <if test="semestor != null">
+        semestor = #{semestor,jdbcType=DATE},
+      </if>
+      <if test="isPublic != null">
+        ispublic = #{isPublic,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <insert id="insertTeachCourse" parameterType="top.godder.homework.domain.TeachCourse">
+    insert into teachcourse (courseid, teacherid, gradeid, semestor, ispublic)
+    VALUES (#{courseId} ,#{teacherId} ,#{gradeId} ,#{semestor} ,#{isPublic} )
+  </insert>
+  <select id="selectTeachCourseByStudent" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select teachcourse.* from teachcourse join attendcourse a on teachcourse.id = a.teachcourseid
+    where studentid = #{studentId,jdbcType=VARCHAR}
+    order by semestor
+  </select>
+</mapper>
