@@ -6,3 +6,5 @@ layui
 mysql 5.6
 
 teacher test user: id=1 password=wusong
+administrator test user: id=godder password=godder
+student test user: you can resgiter by yourself
