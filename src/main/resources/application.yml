@@ -13,7 +13,9 @@ spring:
     name: service-user
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-
+    url: jdbc:mysql://127.0.0.1:3306/homeworkdb?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: *
+    password: *
   thymeleaf:
     cache: false
 
@@ -24,8 +26,8 @@ mybatis:
 
 
 path: 
-#  base: F:/JEEWorkspace/homeworksystem/
-  base: /root/web_running/homework/store/
+  base: F:/JEEWorkspace/homeworksystem/
+#  base: /root/web_running/homework/store/
   resource: ${path.base}system_file/resource/
   homework: ${path.base}system_file/homework/
 
